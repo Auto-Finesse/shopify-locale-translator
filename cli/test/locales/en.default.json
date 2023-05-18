@@ -1,0 +1,16 @@
+{
+  "regular_string": "This is a regular string",
+  "template_string": "This is a string with a {{ variable_1 }} variable",
+  "html_string": "This is a string with <span>html</span> inside of it",
+  "nested_locale": {
+    "regular_string": "This is a regular string",
+    "template_string": "This is a string with a {{ variable_2 }} variable",
+    "html_string": "This is a string with <span>html</span> inside of it",
+
+    "deep_nested_locale": {
+      "regular_string": "This is a regular string",
+      "template_string": "This is a string with a {{ variable_3 }} variable",
+      "html_string": "This is a string with <span>html</span> inside of it"
+    }
+  }
+}

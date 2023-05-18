@@ -1,0 +1,41 @@
+{
+  "name": "shopify-locale-translator-cli",
+  "version": "0.1.0",
+  "description": "Automatic translations for shopify locale files using translate apis",
+  "bin": {
+    "shopify-locale-translator-cli": "./src/main.mjs"
+  },
+  "exports": "./src/main.mjs",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.mjs",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Auto-Finesse/shopify-locale-translator.git"
+  },
+  "keywords": [
+    "Shopify",
+    "Translate"
+  ],
+  "author": "Pedro Pires (Auto Finesse)",
+  "bugs": {
+    "url": "https://github.com/Auto-Finesse/shopify-locale-translator/issues"
+  },
+  "homepage": "https://github.com/Auto-Finesse/shopify-locale-translator#readme",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^10.0.1",
+    "dotenv": "^16.0.3",
+    "es-main": "^1.2.0",
+    "ora": "^6.3.1",
+    "shopify-locale-translator-core": "file:../core"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}

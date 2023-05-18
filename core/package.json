@@ -1,0 +1,26 @@
+{
+  "name": "shopify-locale-translator-core",
+  "version": "0.1.0",
+  "description": "Core library for translating locale files for shopify themes",
+  "type": "module",
+  "exports": "./src/lib.mjs",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Auto-Finesse/shopify-locale-translator.git"
+  },
+  "keywords": [
+    "Shopify",
+    "Translate"
+  ],
+  "author": "Pedro Pires (Auto Finesse)",
+  "bugs": {
+    "url": "https://github.com/Auto-Finesse/shopify-locale-translator/issues"
+  },
+  "homepage": "https://github.com/Auto-Finesse/shopify-locale-translator#readme"
+}
