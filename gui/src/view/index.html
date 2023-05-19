@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="/public/stylesheet/master.css"/>
+    <link rel="stylesheet" href="/public/stylesheet/tailwind.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tauri App</title>
+    <script type="module" src="../public/javascript/main.js" defer></script>
+</head>
+
+<body class="bg-gray-300 dark:bg-gray-900 text-black dark:text-white">
+<div class="flex flex-col h-screen divide-y divide-gray-700">
+    <div class="bg-gray-200 dark:bg-gray-700">
+        <!-- Locales dir input -->
+        <div class="flex flex-row">
+            <label for="locales_dir_button" class="block m-2 text-lg">
+                Locales Directory <span class="text-xs dark:text-gray-300">(Select a file in the directory)</span>
+            </label>
+            <button id="locales_dir_button"
+                    class="m-1 px-2 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-black dark:text-white">
+                Select File
+            </button>
+            <span class="m-2 text-lg">
+                Current: <span id="locales_dir" class="font-bold">None</span>
+            </span>
+        </div>
+    </div>
+    <div class="flex-1 flex divide-x items-stretch divide-gray-700">
+        <div class="flex-1 flex flex-col">
+            <!-- Origin Language Radio -->
+            <label for="origin_language_file" class="block m-2 text-xl">
+                Origin Language File
+            </label>
+            <div id="origin_language_file"
+                 class="flex flex-col divide-y divide-gray-700 rounded h-96 overflow-y-scroll m-2">
+                <!-- This is populated from rust -->
+            </div>
+            <label for="origin_language" class="block m-2 text-xl">
+                Origin Language (Detected)
+            </label>
+            <input id="origin_language" type="text" disabled value="unknown"
+                   class="m-2 px-2 rounded cursor-not-allowed text-black dark:bg-gray-300">
+        </div>
+        <div class="flex-1 flex flex-col">
+            <!-- Target Language Checkbox List -->
+            <label for="target_language_file" class="block m-2 text-xl">
+                Target Language File
+            </label>
+            <div id="target_language_file"
+                 class="flex flex-col divide-y divide-gray-700 rounded h-96 overflow-y-scroll m-2">
+                <!-- This is populated from rust -->
+            </div>
+            <p class="block m-2 text-xl">
+                Time Estimate: <span class="text-gray-500 font-bold">~</span><span id="time_estimate" class="font-bold">0s</span>
+            </p>
+        </div>
+        <div id="translate_container" class="flex-1 flex flex-col group">
+            <div class="flex-1"></div>
+            <!-- Progress Bar -->
+            <div class="relative pt-1 m-2 hidden">
+                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-300">
+                    <div id="progress_bar"
+                         class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                </div>
+            </div>
+            <!-- Time passed -->
+            <p class="group-[.is-loading]:inline-block hidden m-2 text-xl">
+                Time Passed: <span id="time_passed" class="font-bold">0s</span>
+            </p>
+            <!-- Button to Translate -->
+            <button id="translate_button" disabled
+                    class="m-2 p-2 bg-blue-500 hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-bold rounded disabled:animate-none animate-bounce">
+                <span class="group-[.is-loading]:inline-block hidden mr-2 w-5 h-5 animate-spin rounded-full border-2 border-solid border-current border-r-transparent">
+                    <span class="sr-only">Translating...</span>
+                </span>
+                Translate
+                <span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<div id="templates" class="hidden" hidden="hidden">
+    <!-- Template for Origin Language Radio -->
+    <div id="origin_language_template">
+        <label class="p-2 bg-gray-300 dark:bg-gray-100 text-black">
+            <input type="radio" name="origin_language_file" value="{{id}}"
+                   class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 focus:ring-blue-300"/>
+            <span class="name">{{name}}</span>
+        </label>
+    </div>
+    <!-- Template for Target Language Checkbox List -->
+    <div id="target_language_template">
+        <label class="p-2 bg-gray-300 dark:bg-gray-100 text-black block">
+            <input type="checkbox" name="target_language_file" value="{{id}}"
+                   class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 focus:ring-blue-300"/>
+            <span class="name">{{name}}</span>
+        </label>
+    </div>
+</div>
+</body>
+</html>

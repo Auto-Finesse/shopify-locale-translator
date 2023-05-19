@@ -10,7 +10,6 @@
     "cli": "node ./cli/src/main.mjs"
   },
   "dependencies": {
-    "shopify-locale-translator-cli": "file:./cli",
-    "shopify-locale-translator-core": "file:./core"
+    "shopify-locale-translator-cli": "file:./cli"
   }
 }

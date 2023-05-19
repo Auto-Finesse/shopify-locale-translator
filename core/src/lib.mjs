@@ -85,7 +85,7 @@ class Translator {
         return this;
     }
 
-    async translate(localeJSON, from, to) {
+    async translate(localeJSON, from, to, debugCallback) {
         // Walk through the JSON and translate each string
         let result = {};
         let keys = Object.keys(localeJSON);
@@ -113,13 +113,18 @@ class Translator {
                 } else {
                     translatedValue = await this.translateText(value, from, to, "text");
                 }
+                if (typeof debugCallback === "function") {
+                    debugCallback({original: value, translated: translatedValue});
+                }
                 // Add the {{ template }} back to the translated string
                 for (let [identifier, variable] of variableMap) {
-                    translatedValue = translatedValue.replace(identifier, variable);
+                    if (typeof translatedValue === "string") {
+                        translatedValue = translatedValue.replace(identifier, variable);
+                    }
                 }
                 result[key] = translatedValue;
             } else if (typeof value === "object") {
-                result[key] = await this.translate(value, from, to);
+                result[key] = await this.translate(value, from, to, debugCallback);
             }
         }
         return result;
@@ -139,7 +144,7 @@ class Translator {
         }
         let params = api.params;
         let data = {
-            [params.key]: this.api_key,
+            [params.api_key]: this.api_key,
             [params.q]: content,
             [params.source]: from,
             [params.target]: to,
@@ -154,14 +159,19 @@ class Translator {
         });
         let json = await response.json();
         if (json.error) {
-            throw new Error(json.error);
+            // If there is an error, return the original content
+            // I don't understand why if you translate the word "Pinterest" from English to German it throws an error?
+            // WARNING: This is a hacky fix
+            return content;
         }
         let result = json;
         // Walk through the result object and get the result
         // This is because the result is in a different place for each API
-        api.result.split(".").forEach(key => {
+        let key_str = api.result.split(".");
+        for(let i = 0; i < key_str.length; i++) {
+            let key = key_str[i];
             result = result[key];
-        });
+        }
         return result;
     }
 }

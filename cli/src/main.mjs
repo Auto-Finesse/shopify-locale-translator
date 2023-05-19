@@ -29,10 +29,11 @@ program.command('translate')
     .option('--url <url>', 'Override the API request URL')
     .option('--quiet', 'Do not output anything to the console')
     .option('--no-spinner', 'Do not show a cli spinner')
+    .option('--debug', 'Debug mode, outputs extra information')
     .option('--watch', 'Watch the input file for changes and re-translate')
     .action(translateHandler);
 
-async function translateFile(input, from, to, translator, spinner, locale, output) {
+async function translateFile(input, from, to, translator, spinner, locale, output, debug) {
     console.log(chalk.green(`Translating ${input} from '${from}' to '${to}' with ${translator.api}`));
     /** @type {Ora} */
     let spinnerInstance;
@@ -41,7 +42,17 @@ async function translateFile(input, from, to, translator, spinner, locale, outpu
     }
     let result;
     try {
-        result = await translator.translate(locale, from, to);
+        if (!debug) {
+            result = await translator.translate(locale, from, to);
+        } else {
+            console.log(chalk.yellow("Debug mode enabled, showing all translations"));
+            result = await translator.translate(
+                locale, from, to,
+                ({original, translated}) => {
+                    console.log(chalk.green(`Translated ${original} to ${translated}`));
+                }
+            );
+        }
     } catch (e) {
         console.log(chalk.red(`Error translating locale file ${input}`));
         console.log(chalk.red(e));
@@ -69,9 +80,10 @@ async function translateFile(input, from, to, translator, spinner, locale, outpu
 }
 
 async function translateHandler(options) {
-    let {input, from, to, output, quiet, spinner, watch, apiUrl} = options;
+    let {input, from, to, output, quiet, spinner, watch, debug} = options;
     if (quiet) { // Disable console output
-        console.log = () => {};
+        console.log = () => {
+        };
     }
     if (input === undefined) {
         console.log(chalk.yellow("No input file provided, checking for locales/*.default.json"));
@@ -116,11 +128,11 @@ async function translateHandler(options) {
             api_key: options.api_key ?? process.env.API_KEY ?? "",
             url: options.url ?? process.env.API_URL ?? "",
         });
-    await translateFile(input, from, to, translator, spinner, locale, output);
+    await translateFile(input, from, to, translator, spinner, locale, output, debug);
     if (watch) {
         console.log(chalk.green(`Watching ${input} for changes`));
         fs.watchFile(input, async () => {
-            await translateFile(input, from, to, translator, spinner, locale, output);
+            await translateFile(input, from, to, translator, spinner, locale, output, debug);
         });
     }
 }
